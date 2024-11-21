@@ -5,13 +5,10 @@ import torch
 import openai
 import io
 import os
-from dotenv import load_dotenv
 
-# Load environment variables
-load_dotenv()
 
-# Set up OpenAI API key
-openai.api_key = os.getenv("OPENAI_API_KEY")
+
+openai.api_key = st.secrets["OPENAI_API_KEY"]
 
 # Load CLIP model and processor
 @st.cache_resource  # Cache the model loading
