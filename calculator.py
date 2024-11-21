@@ -69,8 +69,9 @@ def analyze_food(image):
         base64_image = base64.b64encode(buffered.getvalue()).decode("utf-8")
         
         logger.info("Sending to GPT for analysis")
-        # GPT Analysis
-        gpt_response = openai.ChatCompletion.create(
+        # GPT Analysis - Updated for OpenAI API v1.0+
+        client = openai.OpenAI()  # Initialize client
+        gpt_response = client.chat.completions.create(
             model="gpt-4o-mini",
             messages=[
                 {
@@ -96,7 +97,7 @@ def analyze_food(image):
             max_tokens=300
         )
         
-        gpt_analysis = gpt_response['choices'][0]['message']['content']
+        gpt_analysis = gpt_response.choices[0].message.content
         logger.info("Analysis complete")
         
         return {
@@ -108,18 +109,11 @@ def analyze_food(image):
     except Exception as e:
         logger.error(f"Error in analyze_food: {str(e)}")
         return {"error": str(e)}
-
 def main():
     st.title("Food Health Analyzer")
     st.write("Upload a food image to analyze its health score and get recommendations.")
     
-    # Debug options in sidebar
-    with st.sidebar:
-        st.subheader("Debug Options")
-        if st.checkbox("Check Dependencies"):
-            check_dependencies()
-        if st.checkbox("Show Environment Info"):
-            check_environment()
+   
     
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
     
