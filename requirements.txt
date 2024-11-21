@@ -1,0 +1,6 @@
+
+opencv-python>=4.8.0
+
+accelerate>=0.24.0
+
+torch>=2.0.0+cu118  
